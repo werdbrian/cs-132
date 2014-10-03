@@ -1,4 +1,4 @@
-* John Bender
+* john bender
 ** johnbender@ucla.edu
 *** johnbender@cs.ucla.edu
 ** second year grad student in PLS
@@ -7,7 +7,7 @@
 *** cautious with proclamations
 *** eventually consistent
 * office hours
-** Tuesday or Thursday mornings
+** thursday, 8am - 10am
 ** _please_ use the discussion section where possible
 * goals
 ** understand the course material
@@ -15,11 +15,10 @@
 ** motivate the course material where possible
 ** try to get to know your names
 *** exceptionally unlikely
+*** "i am become forgetful destroyer of names"
 * will
 ** answer questions about the material
 ** assist you with your development environment
-*** https://github.com/johnbender/cs-132
-*** vagrant/virtualbox
 * won't
 ** do your homework for you
 ** answer questions that trivialize homework
@@ -30,3 +29,19 @@
 ** don't cheat
 ** don't be mean
 ** participate!
+
+
+* questions
+** logistics
+** dev environment
+*** https://github.com/johnbender/cs-132
+*** vagrant/virtualbox
+** lecture
+** automata
+*** regular languages
+*** regular expressions
+*** dfa
+*** nfa
+*** nfa -> dfa
+*** context-free grammars
+*** context-sensitive grammars
