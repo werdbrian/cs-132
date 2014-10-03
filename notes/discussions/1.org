@@ -1,0 +1,32 @@
+* John Bender
+** johnbender@ucla.edu
+*** johnbender@cs.ucla.edu
+** second year grad student in PLS
+** research involves analysis/memory barriers
+** fallible human
+*** cautious with proclamations
+*** eventually consistent
+* office hours
+** Tuesday or Thursday mornings
+** _please_ use the discussion section where possible
+* goals
+** understand the course material
+** prepare for exams
+** motivate the course material where possible
+** try to get to know your names
+*** exceptionally unlikely
+* will
+** answer questions about the material
+** assist you with your development environment
+*** https://github.com/johnbender/cs-132
+*** vagrant/virtualbox
+* won't
+** do your homework for you
+** answer questions that trivialize homework
+** always and constantly be available
+*** piazza
+*** make friends
+* conduct
+** don't cheat
+** don't be mean
+** participate!
