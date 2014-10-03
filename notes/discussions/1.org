@@ -1,14 +1,23 @@
 * john bender
-** johnbender@ucla.edu
+** email
+*** johnbender@ucla.edu
 *** johnbender@cs.ucla.edu
 ** second year grad student in PLS
-** research involves analysis/memory barriers
+** research:
+*** analysis/memory barriers
+*** graphs
 ** fallible human
-*** cautious with proclamations
+*** mistakes/wrong grades
 *** eventually consistent
+*** cautious with proclamation
 * office hours
 ** thursday, 8am - 10am
 ** _please_ use the discussion section where possible
+* extra help
+** try piazza first
+** email me
+*** I will respond as soon as possible
+*** sometimes I won't be able to help you
 * goals
 ** understand the course material
 ** prepare for exams
@@ -29,19 +38,90 @@
 ** don't cheat
 ** don't be mean
 ** participate!
+* questions?
+* logistics
+** book?
+* dev environment
+** https://github.com/johnbender/cs-132
+** vagrant/virtualbox
+* lecture
+* automata
+** notation
 
+   M,N are regular expressions
+   a,b are symbols
 
-* questions
-** logistics
-** dev environment
-*** https://github.com/johnbender/cs-132
-*** vagrant/virtualbox
-** lecture
-** automata
-*** regular languages
-*** regular expressions
-*** dfa
-*** nfa
-*** nfa -> dfa
-*** context-free grammars
-*** context-sensitive grammars
+** regular languages
+*** recognized by regular expressions
+*** recognized by finite automata (more later)
+** regular expressions
+*** familiarity with common regex?
+*** different from regex engines in most PL/stdlib
+***** eg, back-references or groups
+***** not context free (more later)
+*** symbols - a
+**** bolded in the book
+*** concat - MN
+
+     abc
+
+*** alternation/choice - M|N
+
+    a|b
+    ab|c <-- concat >= altern. --> (ab)|c
+
+*** kleene (zero or more) - M*
+
+    a
+    (a|b)*
+    ab*|c <-- kleene >= concat >= altern. --> (a(b*))|c
+
+*** epsilon (empty) - e'
+**** language of empty strings
+** regular expression sugar
+*** classes - [MNO]
+
+    [abc] = (a|b|c)
+    [a-z] = (a | ... | z)
+
+*** optional - M?
+    a?    = (a|e')
+    (ab)? = (ab) | e'
+
+*** one or more - M+
+    a+     = aa*
+    (abc)+ = (abc)(abc)*
+
+** nfa
+*** set of states
+*** start state
+*** final state
+*** alphabet
+*** edges or transition function
+*** examples
+**** 2.4
+** dfa
+*** restriction on nfa
+*** no e' transitions
+*** one edge / transition from states for a given symbol
+** nfa -> dfa
+*** possibly exponential
+** context-free grammars
+*** production rules like
+
+    A -> a
+    A -> aB (right regular)
+    A -> Ba (left regular)
+
+    where A,B are non terminals
+          a is a terminal
+
+** context-sensitive grammars
+*** production rules like
+
+    a'Ab' -> a'ab'
+    a'Ab' -> a'B'b'
+
+    where a',b' are terminal or nonterminals
+          A,B are non terminals
+          a is a terminal
