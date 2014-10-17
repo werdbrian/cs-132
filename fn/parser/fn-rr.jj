@@ -5,7 +5,12 @@ public class Fn { }
 PARSER_END(Fn)
 
 SKIP :
-{ " " | "\t" | "\n" }
+{ " "
+| "\t"
+| "\n"
+/* single line comments */
+| <"#" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+}
 
 TOKEN:
 { < FN: "fn" >

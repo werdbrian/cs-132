@@ -8,8 +8,35 @@
   fn(1)
   bar(fn(x){ ... }(1))
 
-* grammar
+* boolean
 
+** true
+
+  fn(a){ fn(b){a} }
+
+** false
+
+  fn(a){ fn(b){b} }
+
+** and
+
+  fn(t){  # if it's true
+    fn(f){ # if it's false
+      fn(b1){ # first bool
+        fn(b2){ # second bool
+          # if b1 is true then it will return b2
+          # otherwise the b1 is false and so b1 & b2 is false
+          # if b1 is true and b2 is true then t
+          # otherwise f
+          b1(b2)(f)(t)(f)
+        }
+      }
+    }
+  }
+
+*
+
+* grammar
 ** left recursive
 
 expr := abs | app | n
