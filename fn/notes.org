@@ -1,0 +1,39 @@
+* fn a small functional language
+* abstraction
+
+  fn(x){ ... }
+
+* application
+
+  fn(1)
+  bar(fn(x){ ... }(1))
+
+* grammar
+
+** left recursive
+
+expr := abs | app | n
+app  := expr '(' expr ')'
+abs  := fn '(' id ')' '{' expr '}'
+id   := [a-z]([a-z0-9])*
+n    := [1-9]([0-9])*
+
+** right recursive
+
+expr := abs rapp | n rapp
+rapp := '(' expr ')' rapp
+abs  := fn '(' id ')' '{' expr '}'
+id   := [a-z]([a-z0-9])*
+n    := [1-9]([0-9])*
+
+* JavaCC generated code
+
+tokenizer
+get fancier with semantic actions
+don't care
+
+* JTB generated code
+
+visitor
+step through nodes
+attempt to write evaluation for some basic terms
