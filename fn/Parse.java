@@ -1,22 +1,32 @@
 import parser.Fn;
-import
+import parser.ParseException;
+import syntaxtree.Prog;
+import analysis.PrintVisitor;
 
 class Parse {
     public static void main(String args[]){
-        dump();
-        eval();
+        tree();
+        actions();
     }
 
-    static void dump(){
+    static void tree() {
         Fn fn = new Fn(System.in);
 
-        System.out.println( fn.getNextToken() );
-        System.out.println( fn.getNextToken() );
-        System.out.println( fn.getNextToken() );
-        System.out.println( fn.getNextToken() );
+        try {
+            Prog p = Fn.Prog();
+            PrintVisitor v = new PrintVisitor();
+            p.accept(v);
+        } catch (ParseException e){
+            System.out.println(e.toString());
+        }
     }
 
-    static void eval(){
-        // TODO
+    static void actions(){
+        // try {
+        //     Fn fn = new Fn(System.in);
+        //     Fn.Prog();
+        // } catch (ParseException e){
+        //     System.out.println(e.toString());
+        // }
     }
 }

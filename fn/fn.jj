@@ -1,7 +1,9 @@
 PARSER_BEGIN(Fn)
 package parser;
 
-public class Fn { }
+import parser.Fn;
+
+public class Fn {}
 PARSER_END(Fn)
 
 SKIP :
@@ -32,13 +34,15 @@ void Expr() :
 | <N> RApp()
 }
 
-void Abs() :
+String Abs() :
 {}
-{ <FN> "(" <ID> ")" "{" Expr() "}" }
+{
+  <FN> "(" <ID> ")" "{" Expr() "}"
+}
 
 void RApp() :
 {}
-{ "(" Expr() ")" RApp() }
+{ ( "(" Expr() ")" RApp() )? }
 
 /*
 void Abs() :

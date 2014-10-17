@@ -5,11 +5,14 @@
 
 
 PARSER_BEGIN(Fn)
+package parser;
+
+import parser.Fn;
 import syntaxtree.*;
 import java.util.Vector;
 
 
-class Fn 
+public class Fn 
 {
 }
 
@@ -27,6 +30,7 @@ SKIP :
    " "
    | "\t"
    | "\n"
+   | <"#" (~["\n", "\r"])* ("\n" | "\r" | "\r\n")>
 }
 
 TOKEN :
@@ -61,23 +65,31 @@ Prog Prog() :
 Expr Expr() :
 {
    NodeChoice n0;
-   Abs n1;
-   App n2;
-   NodeToken n3;
-   Token n4;
+   NodeSequence n1;
+   Abs n2;
+   RApp n3;
+   NodeSequence n4;
+   NodeToken n5;
+   Token n6;
+   RApp n7;
 
    
 }
 {
    (
-      n1=Abs()
+      { n1 = new NodeSequence(2); }
+      n2=Abs()
+      { n1.addNode(n2); }
+      n3=RApp()
+      { n1.addNode(n3); }
       { n0 = new NodeChoice(n1, 0); }
    |
-      n2=App()
-      { n0 = new NodeChoice(n2, 1); }
-   |
-      n4=<N> { n3 = JTBToolkit.makeNodeToken(n4); }
-      { n0 = new NodeChoice(n3, 2); }
+      { n4 = new NodeSequence(2); }
+      n6=<N> { n5 = JTBToolkit.makeNodeToken(n6); }
+      { n4.addNode(n5); }
+      n7=RApp()
+      { n4.addNode(n7); }
+      { n0 = new NodeChoice(n4, 1); }
    )
    
    { return new Expr(n0); }
@@ -113,22 +125,32 @@ Abs Abs() :
    { return new Abs(n0,n2,n4,n6,n8,n10,n11); }
 }
 
-App App() :
+RApp RApp() :
 {
-   Expr n0;
-   NodeToken n1;
-   Token n2;
-   Expr n3;
-   NodeToken n4;
-   Token n5;
+   NodeOptional n0 = new NodeOptional();
+   NodeSequence n1;
+   NodeToken n2;
+   Token n3;
+   Expr n4;
+   NodeToken n5;
+   Token n6;
+   RApp n7;
 
    
 }
 {
-   n0=Expr()
-   n2="(" { n1 = JTBToolkit.makeNodeToken(n2); }
-   n3=Expr()
-   n5=")" { n4 = JTBToolkit.makeNodeToken(n5); }
+   (
+      { n1 = new NodeSequence(4); }
+      n3="(" { n2 = JTBToolkit.makeNodeToken(n3); }
+      { n1.addNode(n2); }
+      n4=Expr()
+      { n1.addNode(n4); }
+      n6=")" { n5 = JTBToolkit.makeNodeToken(n6); }
+      { n1.addNode(n5); }
+      n7=RApp()
+      { n1.addNode(n7); }
+      { n0.addNode(n1); }
+   )?
    
-   { return new App(n0,n1,n3,n4); }
+   { return new RApp(n0); }
 }
