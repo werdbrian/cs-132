@@ -1,0 +1,12 @@
+* github
+* homework "argue that ll(1)"
+* sufficient conditions
+* two example grammars
+* nullable
+** answers for examples
+* first
+** slide 102
+** answers for examples
+* follow
+** book, page 48
+** answers for examples

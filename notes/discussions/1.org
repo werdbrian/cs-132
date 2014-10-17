@@ -11,6 +11,7 @@
 *** eventually consistent
 *** cautious with proclamation
 * office hours
+** boelter 2432
 ** thursday, 8am - 10am
 ** _please_ use the discussion section where possible
 * extra help
@@ -35,17 +36,17 @@
 *** piazza
 *** make friends
 * conduct
+** try to be on time
 ** don't cheat
 ** don't be mean
 ** participate!
-* questions?
 * logistics
 ** book?
+* questions?
 * dev environment
 ** https://github.com/johnbender/cs-132
 ** vagrant/virtualbox
-* lecture
-* automata
+* stuff
 ** notation
 
    M,N are regular expressions
@@ -79,12 +80,13 @@
 *** epsilon (empty) - e'
 **** language of empty strings
 ** regular expression sugar
-*** classes - [MNO]
+*** classes - [MNO] ****
 
     [abc] = (a|b|c)
     [a-z] = (a | ... | z)
 
 *** optional - M?
+
     a?    = (a|e')
     (ab)? = (ab) | e'
 
@@ -95,12 +97,13 @@
 ** nfa
 *** set of states
 *** start state
-*** final state
+*** final states
 *** alphabet
 *** edges or transition function
 *** examples
 **** 2.4
 ** dfa
+*** notes on vector approach to conversion
 *** restriction on nfa
 *** no e' transitions
 *** one edge / transition from states for a given symbol
@@ -110,7 +113,9 @@
 *** production rules like
 
     A -> a
+
     A -> aB (right regular)
+
     A -> Ba (left regular)
 
     where A,B are non terminals
@@ -118,6 +123,7 @@
 
 ** context-sensitive grammars
 *** production rules like
+**** question about automata/language set
 
     a'Ab' -> a'ab'
     a'Ab' -> a'B'b'
