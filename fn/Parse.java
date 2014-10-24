@@ -2,11 +2,13 @@ import parser.Fn;
 import parser.ParseException;
 import syntaxtree.Prog;
 import analysis.PrintVisitor;
+import analysis.TypeVisitor;
+import analysis.Type;
+import java.util.HashMap;
 
 class Parse {
     public static void main(String args[]){
         tree();
-        actions();
     }
 
     static void tree() {
@@ -14,19 +16,12 @@ class Parse {
 
         try {
             Prog p = Fn.Prog();
-            PrintVisitor v = new PrintVisitor();
-            p.accept(v);
+            TypeVisitor visitor = new TypeVisitor();
+            HashMap<String, Type> typeEnv= new HashMap<String, Type>();
+
+            p.accept(visitor, typeEnv);
         } catch (ParseException e){
             System.out.println(e.toString());
         }
-    }
-
-    static void actions(){
-        // try {
-        //     Fn fn = new Fn(System.in);
-        //     Fn.Prog();
-        // } catch (ParseException e){
-        //     System.out.println(e.toString());
-        // }
     }
 }

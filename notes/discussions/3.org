@@ -1,0 +1,31 @@
+* homework
+
+  written part is graded, programs this weekend
+  graded as 3 parts: grammar 50%, first/follow 25%, parse table 25%
+  grammar wrong => half credit for doing the other bits
+
+* fn grammar
+
+   expr := abs | app | id
+   app  := expr '(' expr ')'
+   abs  := fn '(' id ')' '{' expr '}'
+   id   := [a-z]([a-z0-9])*
+
+   ->
+
+   expr := abs | app | var
+   app  := expr '(' expr ')'
+   abs  := fn '(' t var ')' '{' expr '}'
+   var  := [a-z]([a-z0-9])*
+   t    := 'int' | t '->' t
+   int  := [1-9]([0-9])*
+
+* type rules
+
+  abs, app, var, int
+
+* derivations
+
+  app, failure
+
+* type checking in java
