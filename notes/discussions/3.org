@@ -4,6 +4,8 @@
   graded as 3 parts: grammar 50%, first/follow 25%, parse table 25%
   grammar wrong => half credit for doing the other bits
 
+  _most issues were due to hard to trace follow sets_
+
 * fn grammar
 
    expr := abs | app | id
@@ -20,6 +22,42 @@
    t    := 'int' | t '->' t
    int  := [1-9]([0-9])*
 
+* example expressions
+** simple type
+
+   fn(int t) {
+     t
+   }
+
+** complex type
+
+   fn(int -> int t) {
+     t(1)
+   }
+
+** combination
+
+   fn(int -> int t) {
+     t(1)
+   }(fn{int t){
+     t
+   })
+
+* javacc grammar
+
+  review fn.jj
+
+* jtb build
+
+  who has found jtb?
+  who has downloaded it/tried it?
+
+  http://compilers.cs.ucla.edu/jtb/
+  http://compilers.cs.ucla.edu/jtb/jtb-2003/docs.html
+
+  java -jar jtb132.jar fn.jj -o jtb.out.jj
+  javacc jtb.out.jj
+
 * type rules
 
   abs, app, var, int
@@ -29,3 +67,5 @@
   app, failure
 
 * type checking in java
+
+  TypeVisitor.java

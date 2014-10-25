@@ -5,7 +5,8 @@ import visitor.GJDepthFirst;
 import java.util.HashMap;
 import analysis.Type;
 
-public class TypeVisitor extends GJDepthFirst<Type, HashMap<String, Type>> {
+public class TypeVisitor
+    extends GJDepthFirst<Type, HashMap<String, Type>> {
    /**
     * f0 -> <N>
     */
@@ -41,8 +42,8 @@ public class TypeVisitor extends GJDepthFirst<Type, HashMap<String, Type>> {
         // we get to cheat here because the args can only be ints
         env.put(n.f3.toString(), Type.INTEGER);
 
-        // return n.f6.accept(this, env);
-        return Type.ABSTRACTION;
+        return n.f6.accept(this, env);
+        // return Type.ABSTRACTION;
     }
 
    /**
@@ -54,6 +55,8 @@ public class TypeVisitor extends GJDepthFirst<Type, HashMap<String, Type>> {
        return n.f0.accept(this, env);
    }
 
+
+
    /**
     * f0 -> Abs() RApp()
     *       | Int() RApp()
@@ -64,6 +67,9 @@ public class TypeVisitor extends GJDepthFirst<Type, HashMap<String, Type>> {
 
        // note we don't have access to n.f0.f1
        // requires some chicanery
+
+       // FAILS
+       // first = n.f0.choice.f0.accept(this, env);
        first = n.f0.accept(this, env);
        second = n.f0.accept(this, env);
 
@@ -90,7 +96,15 @@ public class TypeVisitor extends GJDepthFirst<Type, HashMap<String, Type>> {
    }
 
    public Type visit(NodeSequence n, HashMap env) {
-       // ...
-   }
+       // if( env.get( "parent" ) == "expr" ){
 
+       // }
+
+       // for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
+       //     e.nextElement().accept(this,argu);
+       //     _count++;
+       // }
+
+       // return _ret;
+   }
 }
