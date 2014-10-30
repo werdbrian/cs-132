@@ -3,30 +3,44 @@ package analysis;
 import syntaxtree.*;
 import visitor.GJDepthFirst;
 import java.util.HashMap;
+import java.util.Vector;
 import analysis.Type;
+import analysis.ConstType;
+import java.util.Enumeration;
 
 public class TypeVisitor
-    extends GJDepthFirst<Type, HashMap<String, Type>> {
-   /**
-    * f0 -> <N>
-    */
-   public Type visit(Int n, HashMap env) {
-       return Type.INTEGER;
-   }
+    extends GJDepthFirst<Vector<Type>, HashMap<String, Type>> {
 
-   /**
-    * f0 -> <VAR>
-    */
-   public Type visit(Var n, HashMap<String, Type> env){
-       String varname = n.f0.toString();
+    Vector<Type> buildType(Type t){
+        Vector<Type> typeVec = new Vector<Type>();
+        typeVec.add(t);
+        return typeVec;
+    }
 
-       if( env.containsKey(varname) ){
-           return env.get(varname);
-       } else {
-           // maybe throw an exception?
-           return Type.NOPE;
-       }
-   }
+    Vector<Type> buildType(ConstType t){
+        return buildType(new Type(t));
+    }
+
+
+    /**
+     * f0 -> <N>
+     */
+    public Vector<Type> visit(Int n, HashMap env) {
+        return buildType(ConstType.INTEGER);
+    }
+
+    /**
+     * f0 -> <VAR>
+     */
+    public Vector<Type> visit(Var n, HashMap<String, Type> env){
+        String varname = n.f0.toString();
+
+        if( env.containsKey(varname) ){
+            return buildType(env.get(varname));
+        } else {
+            return buildType(ConstType.NOPE);
+        }
+    }
 
     /**
      * f0 -> <FN>
@@ -38,73 +52,42 @@ public class TypeVisitor
      * f6 -> Expr()
      * f7 -> "}"
      */
-    public Type visit(Abs n, HashMap env){
-        // we get to cheat here because the args can only be ints
-        env.put(n.f3.toString(), Type.INTEGER);
+    public Vector<Type> visit(Abs n, HashMap env){
+        // TODO allow arrow types
+        env.put(n.f3.toString(), new Type(ConstType.INTEGER));
 
         return n.f6.accept(this, env);
-        // return Type.ABSTRACTION;
     }
 
-   /**
-    * f0 -> ( "(" Expr() ")" RApp() )?
-    *       | Expr()
-    */
-   public Type visit(RApp n, HashMap env){
-       // NOTE returns null if the optional bit is not there (epsilon)
-       return n.f0.accept(this, env);
-   }
+    /**
+     * f0 -> ( "(" Expr() ")" RApp() )?
+     *       | Expr()
+     */
+    public Vector<Type> visit(RApp n, HashMap env){
+        // NOTE returns null if the optional bit is not there (epsilon)
+        return n.f0.accept(this, env);
+    }
 
 
+    /**
+     * f0 -> Abs() RApp()
+     *       | Int() RApp()
+     *       | Var() RApp()
+     */
+    public Vector<Type> visit(Expr n, HashMap env) {
+        Type first, second;
 
-   /**
-    * f0 -> Abs() RApp()
-    *       | Int() RApp()
-    *       | Var() RApp()
-    */
-   public Type visit(Expr n, HashMap env) {
-       Type first, second;
+        // If the Var is not in the env
+        return buildType(ConstType.NOPE);
+    }
 
-       // note we don't have access to n.f0.f1
-       // requires some chicanery
+    public Vector<Type> visit(NodeSequence n, HashMap env) {
+        Vector<Type> result = new Vector<Type>();
 
-       // FAILS
-       // first = n.f0.choice.f0.accept(this, env);
-       first = n.f0.accept(this, env);
-       second = n.f0.accept(this, env);
+        for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
+            result.addAll(e.nextElement().accept(this, env));
+        }
 
-       // integer?
-       if( first == Type.INTEGER ){
-           // check for empty RApp
-           if ( second == null ){
-               return Type.INTEGER;
-           }
-
-           // otherwise nope
-           return Type.NOPE;
-       }
-
-       // abstraction
-       if( first == Type.ABSTRACTION ){
-           // ??
-
-           return Type.INT || Type.ABSTRACTION;
-       }
-
-       // If the Var is not in the env
-       return Type.NOPE;
-   }
-
-   public Type visit(NodeSequence n, HashMap env) {
-       // if( env.get( "parent" ) == "expr" ){
-
-       // }
-
-       // for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-       //     e.nextElement().accept(this,argu);
-       //     _count++;
-       // }
-
-       // return _ret;
-   }
+        return result;
+    }
 }

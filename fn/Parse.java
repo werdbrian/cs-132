@@ -19,7 +19,7 @@ class Parse {
             TypeVisitor visitor = new TypeVisitor();
             HashMap<String, Type> typeEnv= new HashMap<String, Type>();
 
-            p.accept(visitor, typeEnv);
+            System.out.println(p.accept(visitor, typeEnv));
         } catch (ParseException e){
             System.out.println(e.toString());
         }
