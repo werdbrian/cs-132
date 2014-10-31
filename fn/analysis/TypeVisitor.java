@@ -115,51 +115,42 @@ public class TypeVisitor
 
         Vector<Type> list = n.f0.accept(this, env);
 
-        first = list.elementAt(0);
+        first = list.remove(0);
+
+        if ( list.size() == 0 ){
+            // Int() only
+            return buildType(first);
+        }
 
         // if we're dealing with one of the RApp() cases
-        if ( list.size() > 1 ){
-            // variable type could be anything, return
-            if( list.elementAt(1).isEmpty()){
+        // while we have parameters to check
+        while( ! list.isEmpty() ){
+            // grab the next argument type
+            arg = list.remove(0);
+
+            // we have more args than params
+            if( first == null ){
+                return buildType(ConstType.NOPE);
+            }
+
+            // the RApp() is empty we're at the end
+            // eg, Integer, Empty
+            // eg, Integer -> Integer, Empty
+            if ( arg.isEmpty() ) {
                 return buildType(first);
             }
 
-            // otherwise it's an arrow
-
-            // first type is always the arrow
-            arrow = list.remove(0);
-
-            // while we have parameters to check
-            while( ! list.isEmpty() ){
-                // grab the next argument type
-                arg = list.remove(0);
-
-                // we have more args than params
-                if( arrow == null ){
-                    return buildType(ConstType.NOPE);
-                }
-
-                // the RApp() is empty we're at the end, return the t2 in t1 -> t2
-                if ( arg.isEmpty() ) {
-                    return buildType(arrow);
-                }
-
-                // if the arg ever doesn't match the param it's broken
-                if(! arrow.t1.equals(arg) ){
-                    return buildType(ConstType.NOPE);
-                }
-
-                // grab the next part of the arrow
-                arrow = arrow.t2;
+            // if the arg ever doesn't match the param it's broken
+            if(! first.t1.equals(arg) ){
+                return buildType(ConstType.NOPE);
             }
 
-            // if the type of the first thing isn't t -> t
-            // OR if the types of the params and the arguments don't match
-            return buildType(ConstType.NOPE);
+            // grab the next part of the arrow
+            first = first.t2;
         }
 
-        // Int() only
-        return buildType(first);
+        // java bro
+        return buildType(ConstType.NOPE);
     }
 
 
