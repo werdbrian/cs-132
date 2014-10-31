@@ -21,7 +21,6 @@ public class TypeVisitor
         return buildType(new Type(t));
     }
 
-
     /**
      * f0 -> <N>
      */
@@ -65,10 +64,10 @@ public class TypeVisitor
         Vector<Type> argTypes = n.f2.accept(this, env);
         Type argType  = argTypes.elementAt(0);
 
+        env.put(n.f3.toString(), argType);
+
         Vector<Type> exprTypes = n.f6.accept(this, env);
         Type exprType = exprTypes.elementAt(0);
-
-        env.put(n.f3.toString(), argType);
 
         return buildType(new Type(argType, exprType));
     }
@@ -112,33 +111,50 @@ public class TypeVisitor
      *       | Var() RApp()
      */
     public Vector<Type> visit(Expr n, HashMap env) {
-        Type first, second;
+        Type first, arg, arrow;
 
         Vector<Type> list = n.f0.accept(this, env);
 
         first = list.elementAt(0);
 
         // if we're dealing with one of the RApp() cases
-        if ( list.size() >= 2 ){
-            second = list.elementAt(1);
+        if ( list.size() > 1 ){
+            // variable type could be anything, return
+            if( list.elementAt(1).isEmpty()){
+                return buildType(first);
+            }
 
-            // if the left type is an arrow, which it better be
-            if( first.isArrow() ){
+            // otherwise it's an arrow
 
-                // the RApp() is empty just return the Abs() or Var() type
-                if ( second.isEmpty() ) {
-                    return buildType(first);
+            // first type is always the arrow
+            arrow = list.remove(0);
+
+            // while we have parameters to check
+            while( ! list.isEmpty() ){
+                // grab the next argument type
+                arg = list.remove(0);
+
+                // we have more args than params
+                if( arrow == null ){
+                    return buildType(ConstType.NOPE);
                 }
 
-                // check that the second type fits the first type of
-                // the Abs() or Var() type, i.e. if t1 -> t2, t3 and t1 == t3
-                if( first.t1.equals(second) ) {
-                    return buildType(first.t2);
+                // the RApp() is empty we're at the end, return the t2 in t1 -> t2
+                if ( arg.isEmpty() ) {
+                    return buildType(arrow);
                 }
+
+                // if the arg ever doesn't match the param it's broken
+                if(! arrow.t1.equals(arg) ){
+                    return buildType(ConstType.NOPE);
+                }
+
+                // grab the next part of the arrow
+                arrow = arrow.t2;
             }
 
             // if the type of the first thing isn't t -> t
-            // OR if the types of the param and the argument don't match
+            // OR if the types of the params and the arguments don't match
             return buildType(ConstType.NOPE);
         }
 

@@ -1,0 +1,36 @@
+* examples
+
+  fn(int  x){ 1 }
+
+  fn(int -> int x){ 1 }(fn(int x){ x })
+
+  fn(int -> int x){
+    x
+  }(fn(int x){ x })(1)
+
+* parse trees
+
+  fn(int x){ 1 }
+
+                Expr()
+               /      \
+          Abs()        RApp() - e'
+         /
+fn( RType() x ){ Expr() }
+    /              |
+  TInt()          Int()
+   |                |
+int : INT        1 : INT
+
+
+  fn(int x){ 1 }(1)
+
+                Expr()
+               /      \
+          Abs()        ( Expr() ) RApp()?
+         /                   \
+fn( RType() x ){ Expr() }    Int()
+    /               |          |
+  TInt() (..)?    Int()       1:INT
+   |       |        |
+int:INT    e'      1:INT

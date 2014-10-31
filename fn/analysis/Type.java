@@ -41,10 +41,14 @@ public class Type {
     }
 
     public boolean equals(Type other){
-        if ( t == null ){
+        if ( t == null && other.t == null ){
             return t1.equals(other.t1) && t2.equals(other.t2);
-        } else  {
+        }
+
+        if ( t != null && other.t != null ) {
             return t == other.t;
         }
+
+        return false;
     }
 }
