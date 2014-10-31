@@ -20,9 +20,9 @@ TOKEN:
 | < RPAREN: ")" >
 | < LCURLY: "{" >
 | < RCURLY: "}" >
+| < TINT: "int" >
 | < VAR: ["a"-"z"](["a"-"z"] | ["0"-"9"])* >
 | < ARROW: "->" >
-| < TINT: "Int" >
 | < N: ["1"-"9"](["0"-"9"])* >
 }
 
@@ -33,21 +33,23 @@ void Prog() :
 void Expr() :
 {}
 { Abs() RApp()
-| Int() RApp()
 | Var() RApp()
+| Int()
 }
 
 void Abs() :
 {}
 {
-  <FN> "(" <TINT> <VAR> ")" "{" Expr() "}"
+  <FN> "(" RType() <VAR> ")" "{" Expr() "}"
 }
 
 void RApp() :
 {}
-{ ( "(" Expr() ")" RApp() )?
-| Expr()
-}
+{ ( "(" Expr() ")" RApp() )? }
+
+void RType() :
+{}
+{ TInt() ( <ARROW> RType() )? }
 
 void Var() :
 {}
@@ -56,3 +58,7 @@ void Var() :
 void Int() :
 {}
 { <N> }
+
+void TInt():
+{}
+{ <TINT> }

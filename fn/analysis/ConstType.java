@@ -2,5 +2,6 @@ package analysis;
 
 public enum ConstType {
     INTEGER,
-    NOPE
+    NOPE,
+    EMPTY
 }
