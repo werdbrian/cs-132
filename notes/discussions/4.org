@@ -14,13 +14,14 @@
 
                 Expr()
                /      \
-          Abs()        RApp() - e'
+          Abs()        RApp()?
          /
 fn( RType() x ){ Expr() }
     /              |
-  TInt()          Int()
-   |                |
-int : INT        1 : INT
+  TInt() (..)?    Int()
+   |       |        |
+int:INT    e'      1:INT
+
 
 
   fn(int x){ 1 }(1)
