@@ -2,11 +2,23 @@
 
   fn(int  x){ 1 }
 
-  fn(int -> int x){ 1 }(fn(int x){ x })
+  fn(int x){ 1 }(1)(1)
 
-  fn(int -> int x){
-    x
-  }(fn(int x){ x })(1)
+* ideal trees
+
+  fn(int x){ 1 }
+
+          Abstr()
+            |
+          Int()
+
+  fn(int x){ 1 }(1)
+
+           App()
+           /  \
+     Abstr()   Int()
+       |
+     Int()
 
 * parse trees
 
@@ -14,9 +26,9 @@
 
                 Expr()
                /      \
-          Abs()        RApp()?
-         /
-fn( RType() x ){ Expr() }
+          Abs()        RApp()
+         /                   \
+fn( RType() x ){ Expr() }     .e'
     /              |
   TInt() (..)?    Int()
    |       |        |
@@ -28,10 +40,10 @@ int:INT    e'      1:INT
 
                 Expr()
                /      \
-          Abs()        ( Expr() ) RApp()?
+          Abs()        RApp()
          /                   \
-fn( RType() x ){ Expr() }    Int()
-    /               |          |
-  TInt() (..)?    Int()       1:INT
-   |       |        |
-int:INT    e'      1:INT
+fn( RType() x ){ Expr() }    ( Expr() ) RApp()
+    /               |          |           \
+  TInt() (..)?    Int()       Int()         e'
+   |       |        |          |
+int:INT    e'      1:INT      1:INT
