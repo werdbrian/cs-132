@@ -22,6 +22,14 @@ public class TypeVisitor
     }
 
     /**
+     * f0 -> Expr()
+     * f1 -> <EOF>
+     */
+    public Vector<Type> visit(Prog n, HashMap env) {
+        return n.f0.accept(this, env);
+    }
+
+    /**
      * f0 -> <N>
      */
     public Vector<Type> visit(Int n, HashMap env) {
@@ -40,15 +48,6 @@ public class TypeVisitor
             return buildType(ConstType.NOPE);
         }
     }
-
-    /**
-     * f0 -> Expr()
-     * f1 -> <EOF>
-     */
-    public Vector<Type> visit(Prog n, HashMap env) {
-        return n.f0.accept(this, env);
-    }
-
 
    /**
     * f0 -> <FN>
@@ -146,6 +145,7 @@ public class TypeVisitor
             }
 
             // grab the next part of the arrow
+            // may return null, see first check above
             first = first.t2;
         }
 
