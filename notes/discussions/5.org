@@ -1,0 +1,52 @@
+* Fn modifications
+** substitution
+
+   Normally capture avoiding substitution
+
+*** closures
+
+    fn(x){
+      fn(y) {
+        x
+      }
+    }(1)
+
+*** substitution
+
+    fn(y){
+      1 <-- x replaced by 1
+    }
+
+*** won't work (easily) for vapor, closure state
+
+    (fn(y){ x }, {x=1})
+
+** without closures
+
+   vapor supports passing function addresses
+
+*** true:
+
+    fn(x, y){
+      x
+    }
+
+*** false
+
+    fn(x, y){
+      y
+    }
+
+*** and
+
+    fn(x, y, t, f) {
+      x(y, f)(t, f)
+    }
+
+*** why do we need n args w/o closures?
+
+    fn(x){
+      fn(y){
+        x(y) <-- have to get x in there
+      }
+    }
