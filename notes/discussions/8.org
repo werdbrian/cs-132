@@ -1,0 +1,18 @@
+* vapor-m
+** call
+*** <= 4 args, use a0-a3
+*** > 4 args, use in
+*** grab return val from $v0
+** func id(x y)
+*** <= 4 args, use a0-a3
+*** > 4 args, expect in
+*** ret $v0
+** before or after register alloc?
+*** call/func
+* linear scan
+** example exam
+** vapor-m registers
+*** $s_, $t_
+*** $a_, $v_ ?
+** local array for spill
+** worst case (due to approximation)

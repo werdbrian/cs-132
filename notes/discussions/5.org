@@ -17,9 +17,14 @@
       1 <-- x replaced by 1
     }
 
+
 *** won't work (easily) for vapor, closure state
 
-    (fn(y){ x }, {x=1})
+    fn(x){
+      fn(y){
+        x(y) <-- have to get x in there
+      }
+    }
 
 ** without closures
 
@@ -40,13 +45,17 @@
 *** and
 
     fn(x, y, t, f) {
-      x(y, f)(t, f)
+      x(y, false)(t, f)
     }
 
-*** why do we need n args w/o closures?
+** wait why are the types gone?
 
-    fn(x){
-      fn(y){
-        x(y) <-- have to get x in there
-      }
-    }
+   for simplicity's sake
+   under the assumption the program will not go wrong
+
+* Vapor generation
+** and.vapor
+** rules
+** by hand
+
+   fn(x,y){ x }(1)

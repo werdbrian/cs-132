@@ -1,0 +1,26 @@
+* office hours
+* review/ideas for field/method
+** rules of instantiation
+*** heap alloc
+*** how much to alloc?
+**** just fields
+**** methods?
+** rules for access
+*** attributes
+*** field / method offsets
+**** load load call
+* null pointers
+** when?
+** extend rule for method call
+** why don't we just instantiate instance var types
+* corner cases
+** field/method order
+* arrays
+** length + 4
+** 0 -> length
+** 4 -> 0th elem
+* booleans as integers (less ||)
+** arithmetic repr
+** && => *
+** ! => (1 -)
+* go through Fac example

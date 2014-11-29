@@ -40,12 +40,20 @@ void Expr() :
 void Abs() :
 {}
 {
-  <FN> "(" RType() <VAR> ")" "{" Expr() "}"
+  <FN> "(" RType() <VAR> RParam() ")" "{" Expr() "}"
 }
+
+void RParam():
+{}
+{ ( "," RType() <VAR> RParam() )? }
 
 void RApp() :
 {}
-{ ( "(" Expr() ")" RApp() )? }
+{ ( "(" Expr() RArg() ")" RApp() )? }
+
+void RArg():
+{}
+{ ("," Expr() RArg())? }
 
 void RType() :
 {}
